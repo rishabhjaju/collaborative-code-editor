@@ -44,22 +44,43 @@ export default function EditorRoom() {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <div style={{ flex: 3 }}>
-        <select value={language} onChange={(e) => {
-          setLanguage(e.target.value);
-          socketRef.current.emit("language-change", { roomId, language: e.target.value });
-        }}>
-          <option value="javascript">JavaScript</option>
-          <option value="python">Python</option>
-          <option value="java">Java</option>
-          <option value="cpp">C++</option>
-          <option value="c">C</option>
-          <option value="json">JSON</option>
-        </select>
-        <Editor height="90vh" language={language} theme="vs-dark" value={code} onChange={onChange} />
+    <div className="flex flex-col md:flex-row h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="flex-1 flex flex-col p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-semibold text-indigo-700">Room:</span>
+            <span className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-sm font-mono">{roomId}</span>
+          </div>
+          <select
+            value={language}
+            onChange={(e) => {
+              setLanguage(e.target.value);
+              socketRef.current.emit("language-change", { roomId, language: e.target.value });
+            }}
+            className="border border-indigo-300 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white text-indigo-700 font-medium shadow"
+          >
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="json">JSON</option>
+          </select>
+        </div>
+        <div className="flex-1 rounded-xl overflow-hidden shadow-lg border border-indigo-200 bg-white">
+          <Editor
+            height="75vh"
+            language={language}
+            theme="vs-dark"
+            value={code}
+            onChange={onChange}
+            options={{ fontSize: 16, minimap: { enabled: false } }}
+          />
+        </div>
       </div>
-      <ChatPanel messages={messages} input={input} setInput={setInput} sendMessage={sendMessage} />
+      <div className="w-full md:w-96 border-l border-indigo-200 bg-white/80 shadow-lg flex flex-col">
+        <ChatPanel messages={messages} input={input} setInput={setInput} sendMessage={sendMessage} />
+      </div>
     </div>
   );
 }

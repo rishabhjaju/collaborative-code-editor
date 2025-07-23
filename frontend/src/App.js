@@ -5,6 +5,7 @@ import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import EditorRoom from "./components/EditorRoom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import './css/style.css';
 
 const PrivateRoute = ({ children }) => {
   const { token } = useAuth();
